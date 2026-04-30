@@ -7,15 +7,28 @@
   <title>내 아시아나 마일, 대한항공으로 얼마? · SkyVault</title>
   <meta name="description" content="KE-OZ 합병 시 내 아시아나 마일이 대한항공 마일로 어떻게 바뀔지, 비율별로 가능한 발권 옵션을 한 번에 확인하세요. 공식 발표 시 즉시 알림." />
 
-  <!-- Open Graph / Twitter -->
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/og-image.png" />
+
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="SkyVault" />
+  <meta property="og:locale" content="ko_KR" />
   <meta property="og:title" content="내 아시아나 마일, 대한항공으로 얼마가 될까?" />
-  <meta property="og:description" content="1:1 / 1:0.8 / 1:0.7 비율별로 가능한 발권 옵션을 한 번에 확인하세요. SkyVault 합병 시뮬레이터." />
-  <meta property="og:image" content="https://skyvault.app/og-image.png" />
-  <meta property="og:url" content="https://skyvault.app/merger" />
+  <meta property="og:description" content="1:1 / 1:0.8 / 1:0.7 비율별로 가능한 발권 옵션을 한 번에 확인하세요. KE-OZ 합병 마일 전환 시뮬레이터." />
+  <meta property="og:url" content="https://skyvault-merger-simulator.pages.dev/" />
+  <meta property="og:image" content="https://skyvault-merger-simulator.pages.dev/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="SkyVault — 내 아시아나 마일, 대한항공으로 얼마가 될까? KE-OZ 합병 시뮬레이터" />
+
+  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="내 아시아나 마일, 대한항공으로 얼마?" />
-  <meta name="twitter:description" content="KE-OZ 합병 마일 전환 시뮬레이터" />
+  <meta name="twitter:description" content="KE-OZ 합병 마일 전환 시뮬레이터 · 1:1 / 1:0.8 / 1:0.7 비율별 발권 옵션 비교" />
+  <meta name="twitter:image" content="https://skyvault-merger-simulator.pages.dev/og-image.png" />
 
   <!-- Pretendard Korean web font -->
   <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
@@ -917,6 +930,30 @@
         await navigator.clipboard.writeText(shareUrl);
         const btn = document.getElementById('copy-link');
         const original = btn.textContent;
+        btn.textContent = '✓ 복사됨';
+        setTimeout(() => (btn.textContent = original), 1500);
+        track('link_copied');
+      } catch {
+        prompt('아래 URL을 복사하세요', shareUrl);
+      }
+    });
+
+    /* ───── Analytics shim (실제 연결 시 GA4 / Amplitude로 교체) ───── */
+    function track(event, props = {}) {
+      // window.gtag && window.gtag('event', event, props);
+      // window.amplitude && window.amplitude.track(event, props);
+      if (window.console && window.location.hostname === 'localhost') {
+        console.log('[track]', event, props);
+      }
+    }
+
+    /* ───── Initial render ───── */
+    renderResults();
+    track('page_view');
+  </script>
+</body>
+</html>
+t;
         btn.textContent = '✓ 복사됨';
         setTimeout(() => (btn.textContent = original), 1500);
         track('link_copied');

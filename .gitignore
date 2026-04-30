@@ -39,3 +39,6 @@ coverage/
 *.log
 *.tmp
 test_logic.js
+
+# Internal dev tools (배포 안 함)
+og-export.html
