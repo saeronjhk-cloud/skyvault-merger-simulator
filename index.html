@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a1628" />
+  <title>내 아시아나 마일, 대한항공으로 얼마? · SkyVault</title>
+  <meta name="description" content="KE-OZ 합병 시 내 아시아나 마일이 대한항공 마일로 어떻게 바뀔지, 비율별로 가능한 발권 옵션을 한 번에 확인하세요. 공식 발표 시 즉시 알림." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="내 아시아나 마일, 대한항공으로 얼마가 될까?" />
+  <meta property="og:description" content="1:1 / 1:0.8 / 1:0.7 비율별로 가능한 발권 옵션을 한 번에 확인하세요. SkyVault 합병 시뮬레이터." />
+  <meta property="og:image" content="https://skyvault.app/og-image.png" />
+  <meta property="og:url" content="https://skyvault.app/merger" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="내 아시아나 마일, 대한항공으로 얼마?" />
+  <meta name="twitter:description" content="KE-OZ 합병 마일 전환 시뮬레이터" />
+
+  <!-- Pretendard Korean web font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+  <style>
+    :root {
+      --bg: #0a1628;
+      --bg-2: #07101e;
+      --surface: #142844;
+      --surface-2: #1d3759;
+      --border: #25405f;
+      --text: #f5f7fa;
+      --text-dim: #93a4b8;
+      --text-mute: #6b7d92;
+      --accent: #f5b300;
+      --accent-2: #ffc940;
+      --accent-warm: #ff8a3d;
+      --ke: #2f8fc4;
+      --oz: #e63946;
+      --success: #4ade80;
+      --warn: #fbbf24;
+      --danger: #ef4444;
+      --radius: 14px;
+      --radius-sm: 10px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      --shadow-soft: 0 4px 14px rgba(0, 0, 0, 0.25);
+      --max: 1080px;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+    a { color: var(--accent-2); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    button { font-family: inherit; cursor: pointer; }
+    input, select { font-family: inherit; }
+
+    .container { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+
+    /* ───── HERO ───── */
+    .hero {
+      position: relative;
+      padding: 56px 0 48px;
+      background:
+        radial-gradient(1200px 600px at 20% 0%, rgba(46, 143, 196, 0.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(230, 57, 70, 0.14), transparent 60%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
+      overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: auto 0 -1px 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+    .badge-row { display: flex; align-items: center; gap: 10px; margin-bottom: 22px; flex-wrap: wrap; }
+    .brand {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-weight: 700; letter-spacing: -0.01em; font-size: 16px;
+    }
+    .brand .logo {
+      display: inline-grid; place-items: center;
+      width: 28px; height: 28px; border-radius: 7px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+      color: #1a1100; font-weight: 800;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 10px;
+      background: rgba(245, 179, 0, 0.12);
+      color: var(--accent-2);
+      border: 1px solid rgba(245, 179, 0, 0.3);
+      border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+    }
+    .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+    h1.title {
+      font-size: clamp(28px, 5.4vw, 48px);
+      line-height: 1.18;
+      letter-spacing: -0.02em;
+      margin: 8px 0 14px;
+      font-weight: 800;
+    }
+    .title em {
+      background: linear-gradient(180deg, var(--accent-2) 0%, var(--accent-warm) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      font-style: normal;
+    }
+    .lead {
+      color: var(--text-dim);
+      font-size: clamp(15px, 1.8vw, 17px);
+      max-width: 640px;
+      margin: 0;
+    }
+    .hero-meta {
+      margin-top: 22px; display: flex; gap: 16px; flex-wrap: wrap;
+      color: var(--text-mute); font-size: 13px;
+    }
+    .hero-meta span::before { content: '· '; color: var(--border); margin-right: 4px; }
+    .hero-meta span:first-child::before { content: ''; margin: 0; }
+
+    /* ───── SIMULATOR INPUT ───── */
+    .sim {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-top: 36px;
+      box-shadow: var(--shadow);
+    }
+    .sim-row {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 22px;
+    }
+    @media (max-width: 720px) {
+      .sim { padding: 22px; }
+      .sim-row { grid-template-columns: 1fr; gap: 18px; }
+    }
+    .field label {
+      display: block; font-size: 13px; color: var(--text-dim); margin-bottom: 10px; font-weight: 600;
+    }
+    .miles-input {
+      display: flex; align-items: center; gap: 0;
+      background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-sm);
+      padding: 0 14px;
+    }
+    .miles-input:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245, 179, 0, 0.15); }
+    .miles-input input {
+      flex: 1; background: transparent; border: 0; outline: none;
+      color: var(--text); font-size: 22px; font-weight: 700; letter-spacing: -0.01em;
+      padding: 14px 0; -moz-appearance: textfield;
+    }
+    .miles-input input::-webkit-outer-spin-button,
+    .miles-input input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .miles-input .unit { color: var(--text-dim); font-size: 14px; font-weight: 600; }
+
+    .slider {
+      width: 100%; -webkit-appearance: none; appearance: none;
+      background: transparent; margin-top: 14px;
+    }
+    .slider::-webkit-slider-runnable-track {
+      height: 6px; background: var(--surface-2); border-radius: 3px;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--accent); margin-top: -8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .slider::-moz-range-track { height: 6px; background: var(--surface-2); border-radius: 3px; }
+    .slider::-moz-range-thumb { width: 22px; height: 22px; border: 0; border-radius: 50%; background: var(--accent); cursor: pointer; }
+    .slider-marks {
+      display: flex; justify-content: space-between; font-size: 11px; color: var(--text-mute); margin-top: 6px;
+    }
+
+    .grade-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+    .pill {
+      padding: 9px 13px; border-radius: 999px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 13px; font-weight: 600;
+      transition: all 0.15s ease;
+    }
+    .pill:hover { color: var(--text); }
+    .pill.active {
+      background: rgba(245, 179, 0, 0.12);
+      color: var(--accent-2);
+      border-color: rgba(245, 179, 0, 0.4);
+    }
+
+    .preset-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    .preset {
+      padding: 6px 10px; border-radius: 7px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 12px; font-weight: 500;
+    }
+    .preset:hover { color: var(--text); border-color: var(--surface-2); }
+
+    /* ───── RESULTS ───── */
+    .results {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    @media (max-width: 900px) {
+      .results { grid-template-columns: 1fr; }
+    }
+
+    .ratio-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .ratio-card:hover { transform: translateY(-2px); }
+    .ratio-card.best {
+      border-color: rgba(74, 222, 128, 0.35);
+      background: linear-gradient(180deg, rgba(74, 222, 128, 0.04) 0%, var(--surface) 80%);
+    }
+    .ratio-card.worst {
+      border-color: rgba(239, 68, 68, 0.25);
+    }
+    .ratio-card .top {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .ratio-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 0.04em;
+      padding: 4px 8px; border-radius: 5px; text-transform: uppercase;
+    }
+    .ratio-card.best .ratio-tag { color: var(--success); background: rgba(74,222,128,0.12); }
+    .ratio-card.mid  .ratio-tag { color: var(--warn);    background: rgba(251,191,36,0.12); }
+    .ratio-card.worst .ratio-tag { color: var(--danger); background: rgba(239,68,68,0.12); }
+
+    .ratio-label { color: var(--text-dim); font-size: 13px; }
+    .converted {
+      font-size: clamp(28px, 4.5vw, 36px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin: 4px 0 0;
+    }
+    .converted .unit { color: var(--text-dim); font-size: 14px; font-weight: 600; margin-left: 4px; }
+    .delta { color: var(--text-mute); font-size: 12px; margin-top: 4px; }
+
+    .options-list {
+      list-style: none; padding: 0; margin: 18px 0 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .option-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 13.5px;
+    }
+    .option-item.ok { border-color: rgba(74, 222, 128, 0.2); }
+    .option-item.short { opacity: 0.55; }
+    .opt-icon {
+      width: 28px; height: 28px; border-radius: 7px;
+      display: grid; place-items: center;
+      background: var(--surface-2); flex-shrink: 0; font-size: 14px;
+    }
+    .opt-text { flex: 1; min-width: 0; }
+    .opt-text .route { font-weight: 600; color: var(--text); }
+    .opt-text .meta { color: var(--text-mute); font-size: 12px; }
+    .opt-status { font-size: 12px; font-weight: 600; flex-shrink: 0; }
+    .opt-status.ok { color: var(--success); }
+    .opt-status.short { color: var(--text-mute); }
+
+    .empty-state {
+      padding: 14px; border-radius: var(--radius-sm);
+      background: var(--bg-2); border: 1px dashed var(--border);
+      color: var(--text-mute); font-size: 13px; text-align: center;
+    }
+
+    /* ───── INSIGHT BANNER ───── */
+    .insight {
+      margin-top: 24px;
+      padding: 18px 20px;
+      background: linear-gradient(90deg, rgba(245,179,0,0.08), rgba(255,138,61,0.06));
+      border: 1px solid rgba(245,179,0,0.2);
+      border-radius: var(--radius);
+      display: flex; gap: 14px; align-items: flex-start;
+    }
+    .insight .ico {
+      width: 36px; height: 36px; border-radius: 9px;
+      background: rgba(245,179,0,0.16); color: var(--accent-2);
+      display: grid; place-items: center; flex-shrink: 0; font-size: 18px;
+    }
+    .insight .copy h4 { margin: 0 0 4px; font-size: 14px; font-weight: 700; }
+    .insight .copy p  { margin: 0; color: var(--text-dim); font-size: 13.5px; line-height: 1.55; }
+
+    /* ───── SECTIONS ───── */
+    section { padding: 64px 0; }
+    section + section { border-top: 1px solid var(--border); }
+    .section-eyebrow {
+      display: inline-block; color: var(--accent-2);
+      font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: clamp(24px, 3.6vw, 32px);
+      font-weight: 800; letter-spacing: -0.02em;
+      margin: 0 0 12px;
+    }
+    .section-sub { color: var(--text-dim); font-size: 16px; margin: 0; max-width: 640px; }
+
+    /* ───── SIGNUP ───── */
+    .signup-card {
+      margin-top: 28px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .signup-form {
+      display: flex; gap: 10px; margin-top: 16px;
+    }
+    @media (max-width: 540px) { .signup-form { flex-direction: column; } }
+    .signup-form input {
+      flex: 1; min-width: 0;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      color: var(--text); font-size: 15px;
+    }
+    .signup-form input:focus { outline: 0; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(245,179,0,0.15); }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+      color: #1a1100; border: 0; padding: 14px 22px;
+      border-radius: var(--radius-sm);
+      font-weight: 700; font-size: 15px; letter-spacing: -0.01em;
+      transition: filter 0.15s ease, transform 0.05s ease;
+    }
+    .btn-primary:hover { filter: brightness(1.05); }
+    .btn-primary:active { transform: translateY(1px); }
+    .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-note { color: var(--text-mute); font-size: 12px; margin-top: 10px; }
+    .form-success {
+      margin-top: 14px; padding: 12px 14px;
+      background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3);
+      border-radius: var(--radius-sm); color: var(--success); font-size: 14px;
+    }
+    .form-error {
+      margin-top: 14px; padding: 12px 14px;
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: var(--radius-sm); color: var(--danger); font-size: 14px;
+    }
+
+    /* ───── SHARE ───── */
+    .share-row {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 18px;
+    }
+    .share-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 14px;
+      background: var(--bg-2); border: 1px solid var(--border);
+      color: var(--text-dim); font-size: 13px; font-weight: 600;
+      border-radius: var(--radius-sm);
+    }
+    .share-btn:hover { color: var(--text); }
+
+    /* ───── ABOUT ───── */
+    .about-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px;
+    }
+    @media (max-width: 800px) { .about-grid { grid-template-columns: 1fr; } }
+    .feature {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 22px;
+    }
+    .feature .ico {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: rgba(245,179,0,0.12); color: var(--accent-2);
+      display: grid; place-items: center; font-size: 20px;
+      margin-bottom: 14px;
+    }
+    .feature h4 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
+    .feature p { margin: 0; color: var(--text-dim); font-size: 14px; }
+
+    /* ───── DISCLAIMER ───── */
+    .disclaimer-box {
+      margin-top: 24px;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+    }
+    .disclaimer-box h4 { margin: 0 0 8px; font-size: 14px; color: var(--text); font-weight: 700; }
+    .disclaimer-box ul { margin: 0; padding-left: 20px; color: var(--text-dim); font-size: 13px; }
+    .disclaimer-box li { margin-bottom: 6px; }
+
+    /* ───── FOOTER ───── */
+    footer {
+      padding: 36px 0 48px;
+      border-top: 1px solid var(--border);
+      color: var(--text-mute); font-size: 13px;
+    }
+    .footer-row {
+      display: flex; gap: 18px; flex-wrap: wrap; justify-content: space-between; align-items: center;
+    }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-dim); }
+
+    /* utilities */
+    .num { font-variant-numeric: tabular-nums; }
+    .visually-hidden { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); border:0; }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <div class="badge-row">
+        <span class="brand"><span class="logo">✈</span> SkyVault</span>
+        <span class="badge"><span class="dot"></span>KE-OZ 합병 시뮬레이터</span>
+      </div>
+      <h1 class="title">
+        내 아시아나 마일,<br />
+        대한항공으로 <em>얼마</em>가 될까?
+      </h1>
+      <p class="lead">
+        합병 전환 비율은 아직 공식 발표 전입니다. 1:1 / 1:0.8 / 1:0.7 시나리오별로
+        <strong style="color:var(--text)">내 마일이 어느 노선까지 닿는지</strong> 한 번에 확인하세요.
+      </p>
+      <div class="hero-meta">
+        <span>2025.10 KE 권역제 차감표 기준 (추정)</span>
+        <span>편도 마일 × 2 = 왕복</span>
+        <span>유류할증료 별도</span>
+      </div>
+
+      <!-- Simulator -->
+      <div class="sim" id="simulator">
+        <div class="sim-row">
+          <div class="field">
+            <label for="miles">보유 아시아나 마일</label>
+            <div class="miles-input">
+              <input id="miles" type="number" min="0" max="2000000" step="1000" value="50000" inputmode="numeric" />
+              <span class="unit">mi</span>
+            </div>
+            <input class="slider" id="miles-slider" type="range" min="0" max="500000" step="1000" value="50000" />
+            <div class="slider-marks">
+              <span>0</span><span>10만</span><span>20만</span><span>30만</span><span>40만</span><span>50만+</span>
+            </div>
+            <div class="preset-row">
+              <button class="preset" data-preset="20000" type="button">2만</button>
+              <button class="preset" data-preset="50000" type="button">5만</button>
+              <button class="preset" data-preset="100000" type="button">10만</button>
+              <button class="preset" data-preset="200000" type="button">20만</button>
+              <button class="preset" data-preset="500000" type="button">50만</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>아시아나 회원 등급 <span style="color:var(--text-mute);font-weight:500">(선택)</span></label>
+            <div class="grade-pills" id="grade-pills" role="radiogroup" aria-label="아시아나 회원 등급">
+              <button class="pill active" type="button" data-grade="none" role="radio" aria-checked="true">선택 안 함</button>
+              <button class="pill" type="button" data-grade="silver" role="radio" aria-checked="false">실버</button>
+              <button class="pill" type="button" data-grade="gold" role="radio" aria-checked="false">골드</button>
+              <button class="pill" type="button" data-grade="diamond" role="radio" aria-checked="false">다이아</button>
+              <button class="pill" type="button" data-grade="diamond_plus" role="radio" aria-checked="false">다이아 플러스</button>
+            </div>
+            <p class="form-note" style="margin-top:14px">
+              합병 시 등급 매칭 정책은 미정입니다. 입력 시 등급 보정 시나리오를 함께 표시합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div class="results" id="results"></div>
+
+        <!-- Insight banner -->
+        <div class="insight" id="insight">
+          <div class="ico">💡</div>
+          <div class="copy">
+            <h4 id="insight-title">정확한 비율은 공식 발표를 기다려야 합니다</h4>
+            <p id="insight-body">
+              SkyVault는 합병 전환율이 발표되는 순간 정확한 마일 환산 + 가능한 발권 옵션을 즉시 알려드립니다.
+              아래에서 사전 알림을 신청하세요.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Pre-signup -->
+  <section id="signup-section">
+    <div class="container">
+      <span class="section-eyebrow">Pre-launch</span>
+      <h2 class="section-title">합병 비율 발표되면, 가장 먼저 알려드릴게요.</h2>
+      <p class="section-sub">
+        공식 발표 즉시 정확한 환산 마일 + 내가 갈 수 있는 발권 옵션을 푸시로 받으세요.
+        앱 출시 전 <strong style="color:var(--text)">선착순 1,000명</strong>에게 SkyVault 프리미엄 1개월 무료 제공.
+      </p>
+
+      <div class="signup-card">
+        <form class="signup-form" id="signup-form" novalidate>
+          <input
+            id="email"
+            type="email"
+            placeholder="이메일 주소"
+            required
+            autocomplete="email"
+            aria-label="이메일 주소"
+          />
+          <button class="btn-primary" type="submit" id="signup-btn">사전 알림 신청</button>
+        </form>
+        <p class="form-note">
+          이메일 외 다른 정보는 수집하지 않습니다. 합병 발표 + 앱 출시 알림 외엔 발송하지 않습니다.
+        </p>
+        <div id="form-feedback" aria-live="polite"></div>
+
+        <div class="share-row">
+          <button class="share-btn" type="button" id="copy-link">🔗 링크 복사</button>
+          <a class="share-btn" id="share-kakao" href="#" target="_blank" rel="noopener">💬 카카오톡 공유</a>
+          <a class="share-btn" id="share-twitter" href="#" target="_blank" rel="noopener">𝕏 공유</a>
+          <a class="share-btn" id="share-facebook" href="#" target="_blank" rel="noopener">f 페이스북</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About SkyVault -->
+  <section>
+    <div class="container">
+      <span class="section-eyebrow">About SkyVault</span>
+      <h2 class="section-title">한국 마일러를 위한 가장 똑똑한 마일 어시스턴트</h2>
+      <p class="section-sub">
+        흩어진 마일을 모으고, 만료 직전에 알려주고, 가장 가성비 좋은 발권 시나리오를 자동으로 찾아드립니다.
+      </p>
+
+      <div class="about-grid">
+        <div class="feature">
+          <div class="ico">⏰</div>
+          <h4>만료 임박 마일, 절대 사라지지 않게</h4>
+          <p>Lot 단위로 만료일을 추적합니다. D-90 / D-30 / D-7 푸시 + 비항공권 사용처 자동 추천.</p>
+        </div>
+        <div class="feature">
+          <div class="ico">🧭</div>
+          <h4>자사·동맹·다구간 시나리오 비교</h4>
+          <p>대한항공 + 스카이팀 + 다구간을 한 번에 비교. 평수기·성수기 토글, 유류할증료 반영.</p>
+        </div>
+        <div class="feature">
+          <div class="ico">👨‍👩‍👧</div>
+          <h4>가족 마일 합산</h4>
+          <p>가족 마일까지 합쳐서 발권 가능 여부를 즉시 계산. 가족 여행 플래너 내장.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Disclaimer -->
+  <section>
+    <div class="container">
+      <span class="section-eyebrow">Disclaimer</span>
+      <h2 class="section-title">이 시뮬레이터에 대해</h2>
+      <p class="section-sub">
+        합병 전환 비율은 KE/OZ가 공식 발표하기 전까지 확정되지 않습니다. 본 시뮬레이터는 추정치입니다.
+      </p>
+
+      <div class="disclaimer-box">
+        <h4>데이터 출처 및 한계</h4>
+        <ul>
+          <li>대한항공 차감 마일은 2025년 10월 권역제 기준 추정치입니다. 실제 발권 시 항공사 공식 페이지에서 확정 마일을 확인하세요.</li>
+          <li>전환 비율(1:1 / 1:0.8 / 1:0.7)은 가능한 시나리오일 뿐, 실제 비율과 다를 수 있습니다.</li>
+          <li>유류할증료, 세금, 공항이용료는 별도 부과되며 시뮬레이터에 포함되지 않습니다.</li>
+          <li>성수기/평수기 차감액은 항공사가 매년 별도 공지하며, 시뮬레이터는 평수기 기준입니다.</li>
+          <li>회원 등급 매칭은 합병 후 항공사가 공지할 정책에 따릅니다. 본 시뮬레이터의 등급 보정은 가정일 뿐입니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-row">
+        <div>
+          <strong style="color:var(--text)">SkyVault</strong> · 한국 마일러를 위한 마일리지 어시스턴트
+          <br />
+          <span style="font-size:12px">© 2026 SkyVault. 본 페이지는 항공사와 무관합니다.</span>
+        </div>
+        <div class="footer-links">
+          <a href="mailto:hello@skyvault.app">문의</a>
+          <a href="#" id="link-privacy">개인정보처리방침</a>
+          <a href="#" id="link-terms">이용약관</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ─────────────────────────────────────────────
+       SkyVault | KE-OZ 합병 시뮬레이터
+       단일 파일 · 외부 의존성 없음
+       ───────────────────────────────────────────── */
+
+    /* KE 권역제 차감표 (추정 / 2025.10 기준 / 편도 / 평수기·성수기)
+       실제 차감액은 항공사 공식 페이지를 참조하세요. */
+    const REGIONS = [
+      {
+        code: 'JP_CN', name: '일본/중국/대만',
+        examples: ['도쿄', '오사카', '상하이', '타이베이'],
+        emoji: '🇯🇵',
+        oneWay: { econ: { low: 7500, high: 11250 }, biz: { low: 25000, high: 37500 } },
+      },
+      {
+        code: 'SEA', name: '동남아',
+        examples: ['방콕', '싱가포르', '발리', '호치민'],
+        emoji: '🌴',
+        oneWay: { econ: { low: 17500, high: 26250 }, biz: { low: 47500, high: 71250 } },
+      },
+      {
+        code: 'OCE', name: '대양주/괌',
+        examples: ['시드니', '괌', '사이판', '오클랜드'],
+        emoji: '🏝️',
+        oneWay: { econ: { low: 25000, high: 37500 }, biz: { low: 62500, high: 93750 } },
+      },
+      {
+        code: 'AMS', name: '미주',
+        examples: ['LA', '뉴욕', '하와이', '시애틀'],
+        emoji: '🇺🇸',
+        oneWay: { econ: { low: 35000, high: 52500 }, biz: { low: 80000, high: 120000 } },
+      },
+      {
+        code: 'EU', name: '유럽',
+        examples: ['파리', '런던', '프랑크푸르트', '로마'],
+        emoji: '🇪🇺',
+        oneWay: { econ: { low: 35000, high: 52500 }, biz: { low: 80000, high: 120000 } },
+      },
+    ];
+
+    const RATIOS = [
+      { value: 1.0,  label: '1 : 1',   tone: 'best',  toneLabel: '낙관 시나리오',  desc: '동등 가치 (마일러가 가장 바라는 시나리오)' },
+      { value: 0.8,  label: '1 : 0.8', tone: 'mid',   toneLabel: '중간 시나리오',  desc: '대한항공 마일이 OZ 대비 가치가 높다는 일반적 인식 반영' },
+      { value: 0.7,  label: '1 : 0.7', tone: 'worst', toneLabel: '보수 시나리오',  desc: '재무·차감 정책 보정 가정' },
+    ];
+
+    /* 등급 보정 (가정): 다이아 이상은 +5%, 골드 +2% 가산 시나리오로 가정 */
+    const GRADE_BONUS = {
+      none: 0, silver: 0, gold: 0.02, diamond: 0.05, diamond_plus: 0.07,
+    };
+
+    /* ───── State ───── */
+    const state = { miles: 50000, grade: 'none' };
+
+    /* ───── Format helpers ───── */
+    const fmt = (n) => Math.round(n).toLocaleString('ko-KR');
+    const fmtK = (n) => {
+      if (n >= 10000) return (n / 10000).toFixed(n % 10000 === 0 ? 0 : 1) + '만';
+      if (n >= 1000) return (n / 1000).toFixed(0) + '천';
+      return String(n);
+    };
+
+    /* ───── Booking option calculator ───── */
+    function bookableOptions(miles) {
+      // 왕복 = 편도 × 2 (KE 권역제 동일 적용)
+      const opts = [];
+      for (const r of REGIONS) {
+        opts.push({
+          region: r.name, emoji: r.emoji,
+          cabin: '비즈니스', type: '왕복',
+          cost: r.oneWay.biz.low * 2,
+          example: r.examples[0],
+          rank: r.oneWay.biz.low * 2, // for sort: bigger = more aspirational
+          tier: 2,
+        });
+        opts.push({
+          region: r.name, emoji: r.emoji,
+          cabin: '이코노미', type: '왕복',
+          cost: r.oneWay.econ.low * 2,
+          example: r.examples[0],
+          rank: r.oneWay.econ.low * 2,
+          tier: 1,
+        });
+      }
+      // 보유 마일로 가능한 최고 옵션을 region별 1개씩 추리고, 부족한 옵션 1~2개 함께 노출
+      const byRegion = new Map();
+      for (const o of opts) {
+        const cur = byRegion.get(o.region);
+        if (o.cost <= miles) {
+          // 이 노선은 발권 가능
+          // - 현재 후보가 없거나 부족(fits=false)이면 무조건 교체
+          // - 둘 다 fits면 더 높은 cabin(=cost 큰 쪽)이 우선
+          if (!cur || !cur.fits || cur.cost < o.cost) {
+            byRegion.set(o.region, { ...o, fits: true });
+          }
+        } else if (!cur) {
+          // 아직 어떤 옵션도 못 잡았다면 부족 옵션이라도 후보로
+          byRegion.set(o.region, { ...o, fits: false, gap: o.cost - miles });
+        } else if (!cur.fits && o.cost < cur.cost) {
+          // 둘 다 부족 → 마일이 덜 부족한 쪽으로 교체
+          byRegion.set(o.region, { ...o, fits: false, gap: o.cost - miles });
+        }
+      }
+      const results = Array.from(byRegion.values());
+      // fits 우선, 그 안에서는 rank 큰 것(더 화려한) 우선
+      results.sort((a, b) => {
+        if (a.fits !== b.fits) return a.fits ? -1 : 1;
+        return b.rank - a.rank;
+      });
+      return results.slice(0, 5);
+    }
+
+    /* ───── Render ───── */
+    const $results = document.getElementById('results');
+    const $insightTitle = document.getElementById('insight-title');
+    const $insightBody = document.getElementById('insight-body');
+
+    function renderResults() {
+      const { miles, grade } = state;
+      const bonus = GRADE_BONUS[grade] || 0;
+      const html = RATIOS.map(r => {
+        const adjusted = r.value * (1 + bonus);
+        const converted = miles * adjusted;
+        const opts = bookableOptions(converted);
+        const optsHtml = opts.length
+          ? opts.map(o => {
+              if (o.fits) {
+                return `
+                  <li class="option-item ok">
+                    <span class="opt-icon">${o.emoji}</span>
+                    <div class="opt-text">
+                      <div class="route">${o.region} ${o.cabin} 왕복</div>
+                      <div class="meta">${o.example} · ${fmt(o.cost)}mi</div>
+                    </div>
+                    <span class="opt-status ok">가능</span>
+                  </li>`;
+              } else {
+                return `
+                  <li class="option-item short">
+                    <span class="opt-icon">${o.emoji}</span>
+                    <div class="opt-text">
+                      <div class="route">${o.region} ${o.cabin} 왕복</div>
+                      <div class="meta">${o.example} · ${fmt(o.cost)}mi · ${fmt(o.gap)}mi 부족</div>
+                    </div>
+                    <span class="opt-status short">부족</span>
+                  </li>`;
+              }
+            }).join('')
+          : `<div class="empty-state">발권 가능한 권역이 없어요. 마일을 더 입력해보세요.</div>`;
+
+        const bonusStr = bonus > 0 ? ` (+${(bonus*100).toFixed(0)}% 등급 보정)` : '';
+        return `
+          <article class="ratio-card ${r.tone}">
+            <div class="top">
+              <div>
+                <div class="ratio-label">${r.label}<span style="color:var(--text-mute)">${bonusStr}</span></div>
+                <div class="converted num">${fmt(converted)}<span class="unit">KE 마일</span></div>
+                <div class="delta">${r.toneLabel}</div>
+              </div>
+              <span class="ratio-tag">${r.tone === 'best' ? '낙관' : r.tone === 'mid' ? '중간' : '보수'}</span>
+            </div>
+            <ul class="options-list">${optsHtml}</ul>
+          </article>
+        `;
+      }).join('');
+      $results.innerHTML = html;
+
+      // Insight copy
+      if (miles === 0) {
+        $insightTitle.textContent = '보유 마일을 입력해주세요';
+        $insightBody.textContent = '오른쪽 등급도 함께 선택하면 등급 매칭 시나리오를 추가로 보여드립니다.';
+      } else if (miles < 30000) {
+        $insightTitle.textContent = '단거리 발권에 집중되는 구간';
+        $insightBody.textContent = '일본/중국/대만 권역 이코노미 왕복이 가장 현실적인 옵션입니다. 만료 임박이라면 비항공권 사용처도 검토하세요.';
+      } else if (miles < 100000) {
+        $insightTitle.textContent = '동남아·괌까지 닿는 구간';
+        $insightBody.textContent = '평수기 동남아 비즈니스 또는 괌·사이판 왕복이 가능합니다. 합병 비율이 0.8 이하로 발표되면 발권 옵션이 좁아질 수 있어요.';
+      } else if (miles < 200000) {
+        $insightTitle.textContent = '미주·유럽 이코노미가 보이는 구간';
+        $insightBody.textContent = '미주/유럽 이코노미 왕복이 시야에 들어옵니다. 1:0.7 시나리오에서도 발권 가능한지 비교해보세요.';
+      } else {
+        $insightTitle.textContent = '비즈니스 장거리까지 가능한 구간';
+        $insightBody.textContent = '미주/유럽 비즈니스 왕복이 안정적으로 가능합니다. 가족 여행 합산 시 1등석/장거리 비즈니스도 시야에 듭니다.';
+      }
+
+      // Push event for analytics (placeholder)
+      track('simulator_calculated', { miles, grade });
+    }
+
+    /* ───── Inputs ───── */
+    const $miles = document.getElementById('miles');
+    const $slider = document.getElementById('miles-slider');
+
+    function setMiles(value, source = 'unknown') {
+      const v = Math.max(0, Math.min(2000000, Number(value) || 0));
+      state.miles = v;
+      if (source !== 'input') $miles.value = v;
+      if (source !== 'slider') $slider.value = Math.min(v, 500000);
+      renderResults();
+    }
+
+    $miles.addEventListener('input', e => setMiles(e.target.value, 'input'));
+    $slider.addEventListener('input', e => setMiles(e.target.value, 'slider'));
+
+    document.querySelectorAll('.preset').forEach(btn => {
+      btn.addEventListener('click', () => {
+        setMiles(btn.dataset.preset);
+        track('preset_clicked', { value: btn.dataset.preset });
+      });
+    });
+
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.pill').forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-checked', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-checked', 'true');
+        state.grade = pill.dataset.grade;
+        renderResults();
+        track('grade_selected', { grade: state.grade });
+      });
+    });
+
+    /* ───── Signup form ───── */
+    const $signupForm = document.getElementById('signup-form');
+    const $email = document.getElementById('email');
+    const $signupBtn = document.getElementById('signup-btn');
+    const $feedback = document.getElementById('form-feedback');
+
+    /* TODO: 실제 백엔드 endpoint 또는 Formspree URL 입력
+       예: const FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxxx'; */
+    const FORM_ENDPOINT = '';
+
+    $signupForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = $email.value.trim();
+      $feedback.innerHTML = '';
+
+      if (!isValidEmail(email)) {
+        $feedback.innerHTML = `<div class="form-error">이메일 형식이 올바르지 않습니다.</div>`;
+        return;
+      }
+
+      $signupBtn.disabled = true;
+      $signupBtn.textContent = '신청 중...';
+
+      try {
+        if (FORM_ENDPOINT) {
+          const res = await fetch(FORM_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({ email, source: 'merger_simulator', miles: state.miles, grade: state.grade }),
+          });
+          if (!res.ok) throw new Error('네트워크 오류');
+        } else {
+          // 임시: 백엔드 미연결 상태에선 localStorage에 저장
+          const saved = JSON.parse(localStorage.getItem('skyvault_signups') || '[]');
+          saved.push({ email, miles: state.miles, grade: state.grade, ts: Date.now() });
+          localStorage.setItem('skyvault_signups', JSON.stringify(saved));
+        }
+
+        $feedback.innerHTML = `
+          <div class="form-success">
+            ✅ 신청 완료! 합병 비율 발표 + 앱 출시 시점에 알림드릴게요.
+          </div>`;
+        $email.value = '';
+        track('signup_completed', { miles: state.miles, grade: state.grade });
+      } catch (err) {
+        $feedback.innerHTML = `<div class="form-error">잠시 후 다시 시도해주세요. (${err.message})</div>`;
+        track('signup_failed', { error: err.message });
+      } finally {
+        $signupBtn.disabled = false;
+        $signupBtn.textContent = '사전 알림 신청';
+      }
+    });
+
+    function isValidEmail(s) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+    }
+
+    /* ───── Share ───── */
+    const shareText = '내 아시아나 마일이 대한항공 마일로 얼마가 될까? KE-OZ 합병 시뮬레이터';
+    const shareUrl = location.href;
+
+    document.getElementById('share-twitter').href =
+      `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(shareUrl)}`;
+    document.getElementById('share-facebook').href =
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+    document.getElementById('share-kakao').href =
+      `https://story.kakao.com/share?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`;
+
+    document.getElementById('copy-link').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        const btn = document.getElementById('copy-link');
+        const original = btn.textContent;
+        btn.textContent = '✓ 복사됨';
+        setTimeout(() => (btn.textContent = original), 1500);
+        track('link_copied');
+      } catch {
+        prompt('아래 URL을 복사하세요', shareUrl);
+      }
+    });
+
+    /* ───── Analytics shim (실제 연결 시 GA4 / Amplitude로 교체) ───── */
+    function track(event, props = {}) {
+      // window.gtag && window.gtag('event', event, props);
+      // window.amplitude && window.amplitude.track(event, props);
+      if (window.console && window.location.hostname === 'localhost') {
+        console.log('[track]', event, props);
+      }
+    }
+
+    /* ───── Initial render ───── */
+    renderResults();
+    track('page_view');
+  </script>
+</body>
+</html>
