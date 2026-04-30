@@ -837,13 +837,14 @@
     const $signupBtn = document.getElementById('signup-btn');
     const $feedback = document.getElementById('form-feedback');
 
-    /* TODO: 실제 백엔드 endpoint 또는 Formspree URL 입력
-       예: const FORM_ENDPOINT = 'https://formspree.io/f/xxxxxxxx'; */
-    const FORM_ENDPOINT = '';
+    /* Supabase backend (anon publishable key — RLS로 INSERT만 허용된 안전한 키) */
+    const SUPABASE_URL = 'https://zofxppqifsvxknkdhtol.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_VYhPF3mPFtZu8xm9oY4P6Q_acKoTmzy';
+    const SIGNUP_ENDPOINT = `${SUPABASE_URL}/rest/v1/pre_launch_signups`;
 
     $signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = $email.value.trim();
+      const email = $email.value.trim().toLowerCase();
       $feedback.innerHTML = '';
 
       if (!isValidEmail(email)) {
@@ -855,24 +856,36 @@
       $signupBtn.textContent = '신청 중...';
 
       try {
-        if (FORM_ENDPOINT) {
-          const res = await fetch(FORM_ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-            body: JSON.stringify({ email, source: 'merger_simulator', miles: state.miles, grade: state.grade }),
-          });
-          if (!res.ok) throw new Error('네트워크 오류');
-        } else {
-          // 임시: 백엔드 미연결 상태에선 localStorage에 저장
-          const saved = JSON.parse(localStorage.getItem('skyvault_signups') || '[]');
-          saved.push({ email, miles: state.miles, grade: state.grade, ts: Date.now() });
-          localStorage.setItem('skyvault_signups', JSON.stringify(saved));
+        const res = await fetch(SIGNUP_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal',
+          },
+          body: JSON.stringify({
+            email,
+            miles: state.miles,
+            grade: state.grade === 'none' ? null : state.grade,
+            source: 'merger_simulator',
+            user_agent: (navigator.userAgent || '').slice(0, 500),
+            referrer: (document.referrer || '').slice(0, 500) || null,
+          }),
+        });
+
+        if (res.status === 409) {
+          $feedback.innerHTML = `<div class="form-success">✅ 이미 신청하신 이메일입니다. 발표 시 잊지 않고 알림드릴게요.</div>`;
+          $email.value = '';
+          track('signup_duplicate', { miles: state.miles, grade: state.grade });
+          return;
+        }
+        if (!res.ok) {
+          const body = await res.text().catch(() => '');
+          throw new Error(`HTTP ${res.status} ${body.slice(0, 80)}`);
         }
 
-        $feedback.innerHTML = `
-          <div class="form-success">
-            ✅ 신청 완료! 합병 비율 발표 + 앱 출시 시점에 알림드릴게요.
-          </div>`;
+        $feedback.innerHTML = `<div class="form-success">✅ 신청 완료! 합병 비율 발표 + 앱 출시 시점에 알림드릴게요.</div>`;
         $email.value = '';
         track('signup_completed', { miles: state.miles, grade: state.grade });
       } catch (err) {
