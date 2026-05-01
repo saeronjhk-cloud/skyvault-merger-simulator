@@ -953,27 +953,3 @@
   </script>
 </body>
 </html>
-t;
-        btn.textContent = '✓ 복사됨';
-        setTimeout(() => (btn.textContent = original), 1500);
-        track('link_copied');
-      } catch {
-        prompt('아래 URL을 복사하세요', shareUrl);
-      }
-    });
-
-    /* ───── Analytics shim (실제 연결 시 GA4 / Amplitude로 교체) ───── */
-    function track(event, props = {}) {
-      // window.gtag && window.gtag('event', event, props);
-      // window.amplitude && window.amplitude.track(event, props);
-      if (window.console && window.location.hostname === 'localhost') {
-        console.log('[track]', event, props);
-      }
-    }
-
-    /* ───── Initial render ───── */
-    renderResults();
-    track('page_view');
-  </script>
-</body>
-</html>
