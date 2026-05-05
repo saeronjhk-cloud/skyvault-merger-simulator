@@ -44,25 +44,27 @@
   <div class="container">
     <a class="brand" href="/"><span class="logo">✈</span> SkyVault</a>
     <h1>개인정보처리방침</h1>
-    <p class="meta">시행일: 2026년 5월 1일 · 최초 제정</p>
+    <p class="meta">시행일: 2026년 5월 4일 · v0.2 (임시본)</p>
 
     <div class="callout">
-      ⚠ 본 방침은 정식 출시 전 임시 자가 작성본이며, 법무 검토 완료 후 정식본으로 교체될 예정입니다. 변경 시 본 페이지를 통해 사전 공지합니다.
+      ⚠ 본 방침은 정식 출시 전 임시 자가 작성본이며, 법무 검토(2026년 6월 예정) 완료 후 정식본으로 교체될 예정입니다. 변경 시 본 페이지를 통해 시행 7일 전 사전 공지합니다.
     </div>
 
     <p>SkyVault(이하 "본 서비스")는 「개인정보 보호법」 등 관련 법령을 준수하며, 이용자의 개인정보를 보호하기 위해 다음과 같이 개인정보처리방침을 수립·공개합니다.</p>
 
     <h2>1. 수집하는 개인정보 항목 및 수집 방법</h2>
-    <h3>(1) 이용자 직접 입력 또는 자동 수집</h3>
+    <h3>(1) 필수 수집 항목</h3>
     <ul>
       <li>이메일 주소 (사전 알림 신청 또는 회원가입 시)</li>
+      <li>생년월일 (만 14세 이상 확인 목적, 회원가입 시)</li>
       <li>항공사 마일리지 정보 (이용자가 입력한 항공사명, 보유 마일, 만료일)</li>
-      <li>마일리지 화면 캡처 이미지 (OCR 자동 입력 기능 사용 시, 일시적으로 처리)</li>
-      <li>사용자 에이전트(브라우저/앱 정보), 접속 IP, 유입 경로</li>
+      <li>디바이스 식별 정보 (OS, 앱 버전, 푸시 알림 토큰)</li>
+      <li>서비스 이용 기록 (접속 로그, OCR 사용 횟수, 추천 클릭 기록)</li>
     </ul>
-    <h3>(2) Gmail 연동 시 추가 수집</h3>
+    <h3>(2) 선택 수집 항목 (이용자가 명시적으로 동의한 경우에만)</h3>
     <ul>
-      <li>항공사 적립/사용 메일 본문 (마일리지 정보 추출 목적, 본 서비스 서버에 저장하지 않음)</li>
+      <li>마일리지 화면 캡처 이미지 (OCR 자동 입력 기능 사용 시) — 처리 후 즉시 폐기되며 본 서비스 서버에 영구 저장되지 않습니다.</li>
+      <li>Gmail 계정 접근 권한 (<code>gmail.readonly</code>) — 항공사 적립 메일을 자동으로 읽어 마일리지를 갱신하는 용도. 메일 본문은 디바이스에서 일시적으로 처리되며 본 서비스 서버에 저장되지 않습니다.</li>
       <li>Google 계정 이메일 주소</li>
     </ul>
 
@@ -80,7 +82,7 @@
     <table>
       <thead><tr><th>위탁 업체</th><th>위탁 업무</th><th>보관 위치</th></tr></thead>
       <tbody>
-        <tr><td>Anthropic, PBC</td><td>OCR 이미지 분석 (Claude Vision API)</td><td>미국</td></tr>
+        <tr><td>Anthropic, PBC</td><td>OCR 이미지 분석 (Claude Vision API), 처리 후 즉시 폐기</td><td>미국</td></tr>
         <tr><td>Supabase, Inc.</td><td>사용자 데이터 호스팅, 사전 신청 DB</td><td>한국 (서울 리전)</td></tr>
         <tr><td>Google LLC</td><td>Gmail API 연동 (옵트인)</td><td>미국</td></tr>
         <tr><td>Cloudflare, Inc.</td><td>웹 호스팅, CDN</td><td>글로벌 분산</td></tr>
@@ -88,13 +90,22 @@
     </table>
 
     <h2>4. 개인정보의 국외 이전</h2>
-    <p>OCR 처리 시 마일리지 화면 이미지가 미국 소재 Anthropic 서버로 전송됩니다. 이용자는 OCR 기능 사용 시 이에 동의한 것으로 간주됩니다. Anthropic은 처리 후 30일 내 이미지를 삭제합니다.</p>
+    <p>본 서비스는 일부 기능 제공을 위해 다음과 같이 개인정보를 국외로 이전합니다.</p>
+    <table>
+      <thead><tr><th>이전받는 자</th><th>이전 항목</th><th>이전 시점·방법</th><th>이전 국가</th><th>보유 기간</th></tr></thead>
+      <tbody>
+        <tr><td>Anthropic, PBC<br/>(privacy@anthropic.com)</td><td>마일리지 화면 캡처 이미지</td><td>OCR 기능 사용 시점 / HTTPS 암호화 전송</td><td>미국</td><td>처리 즉시 폐기</td></tr>
+        <tr><td>Supabase, Inc.<br/>(privacy@supabase.io)</td><td>이메일 주소, 사전 알림 신청 정보</td><td>가입 시점 / HTTPS 암호화 전송</td><td>미국</td><td>회원 탈퇴 시까지</td></tr>
+        <tr><td>Google LLC<br/>(privacy-shield@google.com)</td><td>OAuth 인증 토큰, 이메일 주소</td><td>Gmail 연동 동의 시점 / HTTPS 암호화 전송</td><td>미국</td><td>권한 철회 시까지</td></tr>
+      </tbody>
+    </table>
+    <p>이용자는 개인정보의 국외 이전을 거부할 수 있으며, 거부 시 OCR 자동 입력 또는 Gmail 연동 등 해당 기능의 이용이 제한됩니다. 그 외 본 서비스의 기본 기능은 정상 이용 가능합니다.</p>
 
     <h2>5. 개인정보 보유 및 이용 기간</h2>
     <ul>
       <li>회원 정보: 회원 탈퇴 시까지 (탈퇴 즉시 삭제)</li>
-      <li>사전 신청자 이메일: 본 서비스 정식 출시 후 1년간 보관 후 파기</li>
-      <li>OCR 이미지: 처리 완료 후 30일 내 삭제</li>
+      <li>사전 신청자 이메일: 본 서비스 정식 출시 후 6개월간 보관 후 파기</li>
+      <li>OCR 이미지: 처리 완료 직후 즉시 폐기 (본 서비스 및 Anthropic 양쪽 모두)</li>
       <li>Gmail 메일 본문: 본 서비스 서버에 저장하지 않음 (실시간 처리만)</li>
       <li>접속 로그: 6개월</li>
     </ul>
@@ -110,7 +121,7 @@
     <p>요청은 <a href="mailto:hello@skyvault.app">hello@skyvault.app</a>으로 보내주세요.</p>
 
     <h2>7. 만 14세 미만 아동</h2>
-    <p>본 서비스는 만 14세 미만 아동의 회원가입을 받지 않습니다.</p>
+    <p>본 서비스는 만 14세 미만 아동의 회원가입을 받지 않습니다. 회원가입 시 생년월일을 통해 만 14세 이상임을 확인하며, 미성년자로 확인될 경우 가입이 차단됩니다. 만 14세 미만 아동의 개인정보가 수집된 사실이 확인될 경우 즉시 파기합니다.</p>
 
     <h2>8. 안전성 확보 조치</h2>
     <ul>
@@ -122,11 +133,26 @@
 
     <h2>9. 개인정보 보호책임자</h2>
     <ul>
+      <li>책임자: <span style="color:var(--accent2);">{{이름}}</span> <span style="color:var(--text-mute);">(개인정보 보호책임자)</span></li>
       <li>이메일: <a href="mailto:hello@skyvault.app">hello@skyvault.app</a></li>
+      <li>연락처: <span style="color:var(--accent2);">{{전화번호}}</span></li>
+    </ul>
+    <p style="font-size:13px;color:var(--text-mute);">개인정보 침해로 인한 신고나 상담이 필요하신 경우 다음 기관에 문의하실 수 있습니다.</p>
+    <ul style="font-size:13px;">
+      <li>개인정보침해신고센터 (privacy.kisa.or.kr / 국번없이 118)</li>
+      <li>개인정보보호위원회 (pipc.go.kr)</li>
+      <li>대검찰청 사이버수사과 (spo.go.kr / 국번없이 1301)</li>
+      <li>경찰청 사이버수사국 (ecrm.cyber.go.kr / 국번없이 182)</li>
     </ul>
 
     <h2>10. 개인정보처리방침 변경</h2>
-    <p>본 방침은 법령, 정책 또는 본 서비스의 내용 변경에 따라 수정될 수 있으며, 변경 시 본 사이트를 통해 사전 공지합니다.</p>
+    <p>본 방침은 법령, 정책 또는 본 서비스의 내용 변경에 따라 수정될 수 있으며, 변경 시 본 사이트를 통해 시행 7일 전 사전 공지합니다.</p>
+
+    <h2>11. 변경 이력</h2>
+    <ul style="font-size:14px;">
+      <li><strong>v0.2 (2026-05-04 시행)</strong> — 국외 이전 항목 표 형태로 보강, 만 14세 차단 방법 명시, 필수/선택 수집 항목 분리, 개인정보 보호책임자·구제 기관 안내 추가, 사전 신청자 보관 기간 1년 → 6개월 단축, OCR 이미지 보관 정책 정정.</li>
+      <li><strong>v0.1 (2026-05-01 시행)</strong> — 최초 제정 (임시 자가 작성본).</li>
+    </ul>
 
     <div class="footer">
       <div>© 2026 SkyVault</div>
